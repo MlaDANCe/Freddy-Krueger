@@ -16,14 +16,10 @@ var layer;
 var isFlying = false;
 var isFalling = false;
 var flyCounter = 0;
-var fallCounter = 0;
 var mario;
-var allRamps = [];
-
 var isMovingRight = false;
 var isMovingLeft = false;
 var layerWalls;
-var wall;
 var walls = [];
 var isJumpAllowed = true;
 
@@ -92,6 +88,7 @@ function keyDownEventHandler(event) {
         case 0x27:
             isMovingRight = true;
             break;
+        // Left arrow
         case 0x25:
             isMovingLeft = true;
             break;
@@ -166,7 +163,7 @@ function handleCollisions() {
         isMovingLeft = false;
     }
 
-    if (yPos + MARIO_HEIGHT + STEP_INC > BOTTOM) {
+    if (yPos + MARIO_HEIGHT + JUMP_INC > BOTTOM) {
         isFalling = false;
         isJumpAllowed = true;
     }
@@ -176,7 +173,7 @@ function handleCollisions() {
         // collision with walls
         // collision when wall is top
         if(yPos > ramp.attrs.y + ramp.attrs.height) {
-            if ((yPos - STEP_INC < ramp.attrs.y + ramp.attrs.height) &&
+            if ((yPos - JUMP_INC < ramp.attrs.y + ramp.attrs.height) &&
                 ((xPos + MARIO_WIDTH > ramp.attrs.x) && (xPos < ramp.attrs.x + ramp.attrs.width))) {
                 isFlying = false;
                 isFalling = true;
@@ -185,14 +182,14 @@ function handleCollisions() {
 
         // collision when wall is bottom
         if(yPos + MARIO_HEIGHT < ramp.attrs.y) {
-            if ((yPos + MARIO_HEIGHT + STEP_INC > ramp.attrs.y) &&
+            if ((yPos + MARIO_HEIGHT + JUMP_INC > ramp.attrs.y) &&
                 ((xPos + MARIO_WIDTH > ramp.attrs.x) && (xPos < ramp.attrs.x + ramp.attrs.width))) {
                 isFalling = false;
                 isJumpAllowed = true;
             }
         }
 
-        if ((ramp.attrs.y > yPos && ramp.attrs.y < yPos + MARIO_HEIGHT) || (ramp.attrs.y + ramp.attrs.height > yPos && ramp.attrs.y + ramp.attrs.height < yPos + MARIO_HEIGHT)) {
+        if ((ramp.attrs.y >= yPos && ramp.attrs.y <= yPos + MARIO_HEIGHT) || (ramp.attrs.y + ramp.attrs.height >= yPos && ramp.attrs.y + ramp.attrs.height <= yPos + MARIO_HEIGHT)) {
 
             //collision when wall is on the left
             if (xPos >= ramp.attrs.x && xPos <= ramp.attrs.x + ramp.attrs.width) {
