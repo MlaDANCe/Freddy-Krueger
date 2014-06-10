@@ -32,7 +32,7 @@ var coinWidth = 5,
     coinHeight = 10,
     shouldShrink = true,   //needed for animation
     speedOfRotation = 0.3, //from 0.0 to 5.0
-    numberOfCoins = 10,
+    numberOfCoins = 1,
     layerCoins;
 var coinArray = [];//stores coins
 
@@ -57,7 +57,7 @@ var coinArray = [];//stores coins
     stage.add(layerWalls);
 //problem here
 //coins to canvas
-    layerCoins= new Kinetic.Layer();
+    layerCoins = new Kinetic.Layer();
     for (var i = 0; i < numberOfCoins; i++) {
         coinArray[i] = new Kinetic.Ellipse({
             x: stage.getWidth() / 2 + 20 * i,
@@ -72,11 +72,11 @@ var coinArray = [];//stores coins
         })
         layerCoins.add(coinArray[i]);
     }
-    var anim = new Kinetic.Animation(function(frame) {
+    var anim = new Kinetic.Animation(function (frame) {
         animateCoins(coinArray);
     }, layerCoins);
     anim.start();
-stage.add(layerCoins);
+    stage.add(layerCoins);
 
     function animateCoins(coins) {
         for (var i = 0; i < numberOfCoins; i++) {
@@ -195,8 +195,11 @@ function moveHero() {
 
     mario.x(xPos);
     mario.y(yPos);
-//    mario.draw(); was replaced with:
-stage.draw();
+    mario.draw();//was replaced with:
+    for (var i = 0; i < numberOfCoins; i++) {
+        coinArray[i].draw();
+    }
+//stage.draw();
 }
 
 function animateCoins(coins) {
@@ -280,9 +283,9 @@ function handleCollisions() {
 
     //handle collisions with money
     for (var i = 0; i < numberOfCoins; i++) {
-        if( (Math.abs(xPos - coinArray[i].getX()) < MARIO_WIDTH) && (Math.abs(yPos - coinArray[i].getY()) < MARIO_HEIGHT))
-        {
+        if( (Math.abs(xPos - coinArray[i].getX()) < MARIO_WIDTH) && (Math.abs(yPos - coinArray[i].getY()) < MARIO_HEIGHT)){
             coinArray[i].remove();
+            numberOfCoins -= 1;
         }
     }
 
