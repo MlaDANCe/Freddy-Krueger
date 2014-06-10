@@ -111,7 +111,7 @@ stage.add(layerCoins);
     layer.add(mario);
     stage.add(layer);
 //    timerId = setInterval(gameLoop, TIMEOUT);
-    requestAnimationFrame(gameLoop);
+    gameLoop();
 })();
 
 function createRamp(posX, posY, width, height, color, borderColor) {
@@ -221,6 +221,8 @@ function gameLoop() {
     layer.clear();
     handleCollisions();
     moveHero();
+
+    requestAnimationFrame(gameLoop);
 }
 
 function handleCollisions() {
