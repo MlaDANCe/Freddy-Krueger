@@ -5,7 +5,7 @@ var BOTTOM = 600;
 var JUMP_MAX = 100;
 var JUMP_INC = 10;
 var STEP_INC = 5;
-var TIMEOUT = 30;
+var TIMEOUT = 10;
 var MARIO_WIDTH = 30;
 var MARIO_HEIGHT = 50;
 var xPos = 10;
@@ -32,7 +32,7 @@ var coinWidth = 5,
     coinHeight = 10,
     shouldShrink = true,   //needed for animation
     speedOfRotation = 0.3, //from 0.0 to 5.0
-    numberOfCoins = 10,
+    numberOfCoins = 1,
     layerCoins;
 var coinArray = [];//stores coins
 
@@ -56,37 +56,46 @@ var coinArray = [];//stores coins
     }
     stage.add(layerWalls);
 //problem here
-    //coins to canvas
-//    for (var i = 0; i < numberOfCoins; i++) {
-//        coinArray[i] = new Kinetic.Ellipse({
-//            x: stage.getWidth() / 2 + 20 * i,
-//            y: stage.getHeight() - coinHeight,
-//            radius: {
-//                x: coinWidth,
-//                y: coinHeight
-//            },
-//            fill: 'gold',
-//            stroke: 'black',
-//            strokeWidth: 1
-//        })
-//        layerCoins.add(coinArray[i]);
-//    }
+//coins to canvas
+    layerCoins= new Kinetic.Layer();
+    for (var i = 0; i < numberOfCoins; i++) {
+        coinArray[i] = new Kinetic.Ellipse({
+            x: stage.getWidth() / 2 + 20 * i,
+            y: stage.getHeight() - coinHeight,
+            radius: {
+                x: coinWidth,
+                y: coinHeight
+            },
+            fill: 'gold',
+            stroke: 'black',
+            strokeWidth: 1
+        })
+        layerCoins.add(coinArray[i]);
+    }
+    var anim = new Kinetic.Animation(function(frame) {
+        animateCoins(coinArray);
+    }, layerCoins);
+    anim.start();
+stage.add(layerCoins);
 
-    //even tried with one coin
-//    coinArray[0] = new Kinetic.Ellipse({
-//            x: stage.getWidth() / 2 + 20 ,
-//            y: stage.getHeight() - coinHeight,
-//            radius: {
-//                x: coinWidth,
-//                y: coinHeight
-//            },
-//            fill: 'gold',
-//            stroke: 'black',
-//            strokeWidth: 1
-////        })
-//    stage.add(layerCoins);
+    function animateCoins(coins) {
+        for (var i = 0; i < numberOfCoins; i++) {
+            if (coins[i].getRadius().x >= coinWidth) {
+                shouldShrink = true;
+            }
+            else if (coins[i].getRadius().x <= speedOfRotation) {
+                shouldShrink = false;
+            }
 
-    // layer with hero/mario
+            if (shouldShrink) {
+                coins[i].setRadius({x: coins[i].getRadius().x - speedOfRotation, y: coins[i].getRadius().y});
+            }
+            else {
+                coins[i].setRadius({x: coins[i].getRadius().x + speedOfRotation, y: coins[i].getRadius().y});
+            }
+        }
+    }
+
     layer = new Kinetic.Layer();
     mario = new Kinetic.Rect({
         x: 10,
@@ -101,7 +110,8 @@ var coinArray = [];//stores coins
 
     layer.add(mario);
     stage.add(layer);
-    timerId = setInterval(gameLoop, TIMEOUT);
+//    timerId = setInterval(gameLoop, TIMEOUT);
+    requestAnimationFrame(gameLoop);
 })();
 
 function createRamp(posX, posY, width, height, color, borderColor) {
