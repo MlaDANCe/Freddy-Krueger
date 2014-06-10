@@ -32,7 +32,7 @@ var coinWidth = 5,
     coinHeight = 10,
     shouldShrink = true,   //needed for animation
     speedOfRotation = 0.3, //from 0.0 to 5.0
-    numberOfCoins = 1,
+    numberOfCoins = 10,
     layerCoins;
 var coinArray = [];//stores coins
 
@@ -283,7 +283,10 @@ function handleCollisions() {
 
     //handle collisions with money
     for (var i = 0; i < numberOfCoins; i++) {
-        if( (Math.abs(xPos - coinArray[i].getX()) < MARIO_WIDTH) && (Math.abs(yPos - coinArray[i].getY()) < MARIO_HEIGHT)){
+        if( ( xPos <= coinArray[i].getX() && coinArray[i].getX() <= (xPos + MARIO_WIDTH) ) && 
+            ( yPos <= coinArray[i].getY() && coinArray[i].getY() <= (yPos + MARIO_HEIGHT) )
+          ) 
+        {
             coinArray[i].remove();
             numberOfCoins -= 1;
         }
