@@ -72,6 +72,7 @@
     <Content Include="sprites\idle-right.png" />
     <Content Include="sprites\jump-left.png" />
     <Content Include="sprites\jump-right.png" />
+    <Content Include="sprites\Sonic-All.png" />
     <Content Include="sprites\trampline-fall-left.png" />
     <Content Include="sprites\trampline-fall-right.png" />
     <Content Include="sprites\walk-left.png" />

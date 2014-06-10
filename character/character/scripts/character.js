@@ -20,26 +20,63 @@ var border = new Kinetic.Rect({
 layer.add(border);
 
 //Load sprite
-var imageObject = new Image();
-imageObject.src = 'sprites/idle-right.png';
+var sprite = new Image();
 
 //Create shape/animation
-imageObject.onload = function () {
+sprite.onload = function () {
     var character = new Kinetic.Sprite({
         x: 400,
-        y: 50,
-        image: imageObject,
-        animation: 'character-animation',
+        y: 400,
+        image: sprite,
+        animation: 'idleRight',
         animations: {
-            idle: [
-              // x, y, width, height (7 frame)
-              0, 0, 30, 41,
-              30, 0, 31, 41,
-              61, 0, 33, 41,
-              94, 0, 33, 41,
-              127, 0, 33, 41,
-              160, 0, 33, 41,
-              193, 0, 33, 41
+            idleRight: [
+                // x, y, width, height
+                0, 0, 29, 40,
+                29, 0, 31, 40,
+                60, 0, 33, 40,
+                93, 0, 33, 40,
+                126, 0, 33, 40,
+                159, 0, 33, 40,
+                192, 0, 33, 40
+            ],
+            idleLeft: [
+                196, 40, 29, 40,
+                165, 40, 31, 40,
+                132, 40, 33, 40,
+                99, 40, 33, 40,
+                66, 40, 33, 40,
+                33, 40, 33, 40,
+                0, 40, 33, 40
+            ],
+            moveRight: [
+                32, 158, 37, 41,
+                71, 159, 39, 39,
+                112, 157, 40, 41,
+                152, 159, 40, 39
+            ],
+            moveLeft: [
+                151, 199, 37, 41,
+                109, 200, 39, 39,
+                68, 199, 40, 41,
+                28, 200, 40, 39
+
+            ],
+            jumpRight: [
+                21, 81, 26, 38,
+                47, 86, 31, 31,
+                78, 86, 31, 31,
+                112, 86, 31, 32,
+                144, 86, 31, 31,
+                177, 83, 26, 35
+            ],
+            jumpLeft: [
+                177, 119, 28, 38,
+                146, 126, 31, 31,
+                115, 125, 31, 31,
+                81, 125, 31, 32,
+                49, 125, 31, 31,
+                23, 122, 26, 35
             ]
         },
 
@@ -57,7 +94,9 @@ stage.add(layer);
 //Start animation
 character.start();
 
-//Special events that will change animation of character
+sprite.src = 'sprites/Sonic-All.png';
+
+////Special events that will change animation of character
 //character.on('frameIndexChange', function (evt) {
 //    character.animation('character-animation');
 //});
