@@ -32,7 +32,7 @@ var coinWidth = 5,
     coinHeight = 10,
     shouldShrink = true,   //needed for animation
     speedOfRotation = 0.3, //from 0.0 to 5.0
-    numberOfCoins = 10,
+    numberOfCoins = 50, //10,
     layerCoins;
 var coinArray = [];//stores coins
 
@@ -95,21 +95,26 @@ function startNewGame() {
 
     stage.add(layerWalls);
     //coins to canvas
+    //for (var i = 0; i < numberOfCoins; i++) {
+    //    coinArray[i] = new Kinetic.Ellipse({
+    //        x: stage.getWidth() / 2 + 20 * i,
+    //        y: stage.getHeight() - coinHeight,
+    //        radius: {
+    //            x: coinWidth,
+    //            y: coinHeight
+    //        },
+    //        fill: 'gold',
+    //        stroke: 'black',
+    //        strokeWidth: 1
+    //    });
+    //    layerCoins.add(coinArray[i]);
+    //}
+    deployCoins();
     layerCoins = new Kinetic.Layer();
-    for (var i = 0; i < numberOfCoins; i++) {
-        coinArray[i] = new Kinetic.Ellipse({
-            x: stage.getWidth() / 2 + 20 * i,
-            y: stage.getHeight() - coinHeight,
-            radius: {
-                x: coinWidth,
-                y: coinHeight
-            },
-            fill: 'gold',
-            stroke: 'black',
-            strokeWidth: 1
-        });
+    for (i = 0; i < coinArray.length; i++) {
         layerCoins.add(coinArray[i]);
     }
+
     var anim = new Kinetic.Animation(function (frame) {
         animateCoins(coinArray);
     }, layerCoins);
@@ -334,6 +339,43 @@ function handleCollisions() {
     }
 }
 
-function deplyCoins() {
+function deployCoins() {
+    var COIN_WIDTH = coinWidth * 2;
+    var rampIndex;
+    var rampLengthInCoins;
+    var rampPosition;
+    var x;
+    var y;
+    var coinsMap = {};
+    var coinMapIndex;
+    var coinsCount = numberOfCoins;
 
+    while (coinsCount >= 0) {
+        rampIndex = Math.random() * walls.length | 0;
+        rampLengthInCoins = walls[rampIndex].attrs.width / COIN_WIDTH | 0;
+        rampPosition = Math.random() * rampLengthInCoins | 0;
+        x = rampPosition * COIN_WIDTH + walls[rampIndex].attrs.x;
+        y = walls[rampIndex].attrs.y - coinHeight;
+
+        coinMapIndex = rampIndex + '' + rampPosition;
+        if (coinsMap[coinMapIndex]) {
+            continue;
+        }
+        else {
+            coinsMap[coinMapIndex] = true;
+        }
+        
+        coinArray[numberOfCoins - coinsCount] = new Kinetic.Ellipse({
+            x: x,
+            y: y,
+            radius: {
+                x: coinWidth,
+                y: coinHeight
+            },
+            fill: 'gold',
+            stroke: 'black',
+            strokeWidth: 1
+        });
+        coinsCount -= 1;
+    }
 }
