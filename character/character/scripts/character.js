@@ -24,7 +24,7 @@ var sprite = new Image();
 
 //Create shape/animation
 sprite.onload = function () {
-    var character = new Kinetic.Sprite({
+     var character = new Kinetic.Sprite({
         x: 400,
         y: 400,
         image: sprite,
@@ -82,17 +82,17 @@ sprite.onload = function () {
 
         frameRate: 7,
         frameIndex: 0
-    });
+     });
+
+    //Add shape to layer
+     layer.add(character);
+
+    //Add layer to stage
+     stage.add(layer);
+
+    //Start animation
+     character.start();
 }
-
-//Add shape to layer
-layer.add(character)
-
-//Add layer to stage
-stage.add(layer);
-
-//Start animation
-character.start();
 
 sprite.src = 'sprites/Sonic-All.png';
 
