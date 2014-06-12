@@ -24,6 +24,13 @@ var walls = [];
 var isJumpAllowed = true;
 var gameTimeout = 60;
 
+var imageRampBackground = new Image();
+imageRampBackground.src = 'images/platform.png';
+
+
+
+
+
 //money
 var coinWidth = 5,
     coinHeight = 10,
@@ -72,8 +79,8 @@ function startNewGame() {
     window.addEventListener("keydown", keyDownEventHandler, false);
     window.addEventListener("keyup", keyUpEventHandler, false);
 
-    createRamp(150, 530, 120, 8, 'green', 'black');
-    createRamp(350, 510, 120, 8, 'red', 'black');
+    createRamp(150, 530, 120, 30, 'green', 'black');
+    createRamp(350, 530, 120, 30, 'red', 'black');
     createRamp(550, 530, 10, 50, 'blue', 'black');
 
     // Layer with walls
@@ -139,16 +146,16 @@ function gameover() {
 
 function createRamp(posX, posY, width, height, color, borderColor) {
     var currentRamp = new Kinetic.Rect({
-        x: posX,
-        y: posY,
-        width: width,
-        height: height,
-        fill: color,
-        stroke: borderColor,
-        strokeWidth: 1
-    });
-
-    walls.push(currentRamp);
+	x: posX,
+	y: posY,
+	width: width,
+	height: height,
+//fill:'transparent',
+	stroke: borderColor,
+	strokeWidth: 1,
+	fillPatternImage:imageRampBackground
+});
+walls.push(currentRamp);
 }
 
 function keyDownEventHandler(event) {
