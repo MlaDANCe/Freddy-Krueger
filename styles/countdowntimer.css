@@ -1,0 +1,10 @@
+#timedownCounter {
+    left: 15px;
+    top: 70px;
+	border: 1px solid #ccc;
+	background-color: #eee;
+    border-radius: 5px;
+    width: 100px;
+    height: 45px;
+    display: 'none';
+}
