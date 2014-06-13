@@ -29,16 +29,12 @@ var character = new Kinetic.Sprite();
 var imageRampBackground = new Image();
 imageRampBackground.src = 'images/platform.png';
 
-
-
-
-
 //money
 var coinWidth = 5,
     coinHeight = 10,
     shouldShrink = true,   //needed for animation
     speedOfRotation = 0.3, //from 0.0 to 5.0
-    numberOfCoins = 10,
+    numberOfCoins = 50, //10,
     layerCoins;
 var coinArray = [];//stores coins
 
@@ -82,8 +78,16 @@ function startNewGame() {
     window.addEventListener("keyup", keyUpEventHandler, false);
 
     createRamp(150, 530, 120, 30, 'green', 'black');
-    createRamp(350, 530, 120, 30, 'red', 'black');
+    createRamp(350, 500, 100, 30, 'red', 'black');
     createRamp(550, 530, 10, 50, 'blue', 'black');
+    createRamp(240, 360, 120, 30, 'red', 'black');
+    createRamp(450, 430, 100, 20, 'blue', 'black');
+    createRamp(110, 260, 150, 30, 'red', 'black');
+    createRamp(380, 200, 200, 30, 'blue', 'black');
+    createRamp(630, 270, 100, 30, 'blue', 'black');
+    createRamp(50, 170, 100, 30, 'red', 'black');
+    createRamp(650, 130, 110, 30, 'blue', 'black');
+    createRamp(120, 80, 140, 30, 'red', 'black');
 
     // Layer with walls
     layerWalls = new Kinetic.Layer();
@@ -93,21 +97,26 @@ function startNewGame() {
 
     stage.add(layerWalls);
     //coins to canvas
+    //for (var i = 0; i < numberOfCoins; i++) {
+    //    coinArray[i] = new Kinetic.Ellipse({
+    //        x: stage.getWidth() / 2 + 20 * i,
+    //        y: stage.getHeight() - coinHeight,
+    //        radius: {
+    //            x: coinWidth,
+    //            y: coinHeight
+    //        },
+    //        fill: 'gold',
+    //        stroke: 'black',
+    //        strokeWidth: 1
+    //    });
+    //    layerCoins.add(coinArray[i]);
+    //}
+    deployCoins();
     layerCoins = new Kinetic.Layer();
-    for (var i = 0; i < numberOfCoins; i++) {
-        coinArray[i] = new Kinetic.Ellipse({
-            x: stage.getWidth() / 2 + 20 * i,
-            y: stage.getHeight() - coinHeight,
-            radius: {
-                x: coinWidth,
-                y: coinHeight
-            },
-            fill: 'gold',
-            stroke: 'black',
-            strokeWidth: 1
-        })
+    for (i = 0; i < coinArray.length; i++) {
         layerCoins.add(coinArray[i]);
     }
+
     var anim = new Kinetic.Animation(function (frame) {
         animateCoins(coinArray);
     }, layerCoins);
@@ -131,99 +140,99 @@ function startNewGame() {
 
     //Create shape/animation
     sprite.onload = function () {
-     character = new Kinetic.Sprite({
-        x: xPos,
-        y: yPos,
-        image: sprite,
-        animation: 'idleRight',
-        animations: {
-            idleRight: [
-                // x, y, width, height
-                0, 0, 33, 40,
-                29, 0, 33, 40,
-                60, 0, 33, 40,
-                93, 0, 33, 40,
-                126, 0, 33, 40,
-                159, 0, 33, 40,
-                192, 0, 33, 40
-            ],
-            idleLeft: [
-                196, 40, 29, 40,
-                165, 40, 31, 40,
-                132, 40, 33, 40,
-                99, 40, 33, 40,
-                66, 40, 33, 40,
-                33, 40, 33, 40,
-                0, 40, 33, 40
-            ],
-            moveRight: [
-                43, 162, 33, 36,
-                76, 162, 33, 36,
-                109, 162, 33, 36,
-                141, 162, 33, 36,
-                43, 162, 33, 36,
-                76, 162, 33, 36,
-                109, 162, 33, 36,
-                141, 162, 33, 36
-            ],
-            moveLeft: [
-                141, 201, 33, 36,
-                109, 201, 33, 36,
-                76, 201, 33, 36,
-                43, 201, 33, 36,
-                141, 201, 33, 36,
-                109, 201, 33, 36,
-                76, 201, 33, 36,
-                43, 201, 33, 36
+        character = new Kinetic.Sprite({
+            x: xPos,
+            y: yPos,
+            image: sprite,
+            animation: 'idleRight',
+            animations: {
+                idleRight: [
+                    // x, y, width, height
+                    0, 0, 33, 40,
+                    29, 0, 33, 40,
+                    60, 0, 33, 40,
+                    93, 0, 33, 40,
+                    126, 0, 33, 40,
+                    159, 0, 33, 40,
+                    192, 0, 33, 40
+                ],
+                idleLeft: [
+                    196, 40, 29, 40,
+                    165, 40, 31, 40,
+                    132, 40, 33, 40,
+                    99, 40, 33, 40,
+                    66, 40, 33, 40,
+                    33, 40, 33, 40,
+                    0, 40, 33, 40
+                ],
+                moveRight: [
+                    43, 162, 33, 36,
+                    76, 162, 33, 36,
+                    109, 162, 33, 36,
+                    141, 162, 33, 36,
+                    43, 162, 33, 36,
+                    76, 162, 33, 36,
+                    109, 162, 33, 36,
+                    141, 162, 33, 36
+                ],
+                moveLeft: [
+                    141, 201, 33, 36,
+                    109, 201, 33, 36,
+                    76, 201, 33, 36,
+                    43, 201, 33, 36,
+                    141, 201, 33, 36,
+                    109, 201, 33, 36,
+                    76, 201, 33, 36,
+                    43, 201, 33, 36
 
-            ],
-            jumpRight: [
-                21, 81, 26, 38,
-                47, 86, 31, 31,
-                78, 86, 31, 31,
-                112, 86, 31, 32,
-                144, 86, 31, 31,
-                47, 86, 31, 31,
-                78, 86, 31, 31,
-                112, 86, 31, 32,
-                144, 86, 31, 31,
-                177, 83, 26, 35
-            ],
-            jumpLeft: [
-                177, 119, 28, 38,
-                146, 126, 31, 31,
-                115, 125, 31, 31,
-                81, 125, 31, 32,
-                49, 125, 31, 31,
-                146, 126, 31, 31,
-                115, 125, 31, 31,
-                81, 125, 31, 32,
-                49, 125, 31, 31,
-                23, 122, 26, 35
-            ],
-            fallRight: [
-                118, 241, 25, 44
-            ],
-            fallLeft: [
-                89, 241, 25, 44,
-            ]
-        },
+                ],
+                jumpRight: [
+                    21, 81, 26, 38,
+                    47, 86, 31, 31,
+                    78, 86, 31, 31,
+                    112, 86, 31, 32,
+                    144, 86, 31, 31,
+                    47, 86, 31, 31,
+                    78, 86, 31, 31,
+                    112, 86, 31, 32,
+                    144, 86, 31, 31,
+                    177, 83, 26, 35
+                ],
+                jumpLeft: [
+                    177, 119, 28, 38,
+                    146, 126, 31, 31,
+                    115, 125, 31, 31,
+                    81, 125, 31, 32,
+                    49, 125, 31, 31,
+                    146, 126, 31, 31,
+                    115, 125, 31, 31,
+                    81, 125, 31, 32,
+                    49, 125, 31, 31,
+                    23, 122, 26, 35
+                ],
+                fallRight: [
+                    118, 241, 25, 44
+                ],
+                fallLeft: [
+                    89, 241, 25, 44,
+                ]
+            },
 
-        frameRate: 12,
-        frameIndex: 0
-    });
+            frameRate: 12,
+            frameIndex: 0
+        });
 
-    // Scale character to approximately 50px height
-    character.scale({
-        x: 1.3,
-        y: 1.3
-    });
+        // Scale character to approximately 50px height
+        character.scale({
+            x: 1.3,
+            y: 1.3
+        });
 
-    //Add shape to layer
-    sonicLayer.add(character);
+        //Add shape to layer
+        sonicLayer.add(character);
 
-    //Start animation
-    character.start();
+        //Start animation
+        character.start();
     }
 
     sprite.src = 'images/Sonic-All.png';
@@ -251,16 +260,16 @@ function gameover() {
 
 function createRamp(posX, posY, width, height, color, borderColor) {
     var currentRamp = new Kinetic.Rect({
-	x: posX,
-	y: posY,
-	width: width,
-	height: height,
-//fill:'transparent',
-	stroke: borderColor,
-	strokeWidth: 1,
-	fillPatternImage:imageRampBackground
-});
-walls.push(currentRamp);
+        x: posX,
+        y: posY,
+        width: width,
+        height: height,
+        //fill:'transparent',
+        stroke: borderColor,
+        strokeWidth: 1,
+        fillPatternImage: imageRampBackground
+    });
+    walls.push(currentRamp);
 }
 
 function keyDownEventHandler(event) {
@@ -273,7 +282,7 @@ function keyDownEventHandler(event) {
                 isJumpAllowed = false;
             }
             break;
-        // Right arrow
+            // Right arrow
         case 0x27:
             isMovingRight = true;
             break;
@@ -320,8 +329,8 @@ function updateFly() {
                     character.attrs.animation = 'fallRight';
                 }
             }
-            
-            
+
+
         }
     }
     else if (isFalling) {
@@ -353,16 +362,16 @@ function moveHero() {
 
     if (isFlying || isFalling) {
         updateFly();
-    } 
+    }
     if (!isFlying && !isFalling && !isMovingRight && !isMovingLeft) {
         if (isLastMoveLeft) {
             character.attrs.animation = 'idleLeft';
         } else {
             character.attrs.animation = 'idleRight';
         }
-    
+
     }
-    
+
     mario.x(xPos);
     mario.y(yPos);
     mario.draw();//was replaced with:
@@ -469,5 +478,47 @@ function handleCollisions() {
             numberOfCoins -= 1;
             break;
         }
+    }
+}
+
+
+function deployCoins() {
+    var COIN_WIDTH = coinWidth * 2;
+    var rampIndex;
+    var rampLengthInCoins;
+    var rampPosition;
+    var x;
+    var y;
+    var coinsMap = {};
+    var coinMapIndex;
+    var coinsCount = numberOfCoins;
+
+    while (coinsCount >= 0) {
+        rampIndex = Math.random() * walls.length | 0;
+        rampLengthInCoins = walls[rampIndex].attrs.width / COIN_WIDTH | 0;
+        rampPosition = Math.random() * rampLengthInCoins | 0;
+        x = rampPosition * COIN_WIDTH + walls[rampIndex].attrs.x;
+        y = walls[rampIndex].attrs.y - coinHeight;
+
+        coinMapIndex = rampIndex + '' + rampPosition;
+        if (coinsMap[coinMapIndex]) {
+            continue;
+        }
+        else {
+            coinsMap[coinMapIndex] = true;
+        }
+
+        coinArray[numberOfCoins - coinsCount] = new Kinetic.Ellipse({
+            x: x,
+            y: y,
+            radius: {
+                x: coinWidth,
+                y: coinHeight
+            },
+            fill: 'gold',
+            stroke: 'black',
+            strokeWidth: 1
+        });
+        coinsCount -= 1;
     }
 }
