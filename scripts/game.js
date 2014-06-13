@@ -6,8 +6,8 @@ var JUMP_MAX = 100;
 var JUMP_INC = 10;
 var STEP_INC = 5;
 var TIMEOUT = 100;
-var MARIO_WIDTH = 30;
-var MARIO_HEIGHT = 50;
+var MARIO_WIDTH = 43;
+var MARIO_HEIGHT = 52;
 var xPos = 10;
 var yPos = BOTTOM - MARIO_HEIGHT - 1;
 var stage;
@@ -18,12 +18,14 @@ var mario;
 var isMovingRight = false;
 var isMovingLeft = false;
 var isGameOver = false;
+var isLastMoveLeft = false;
 var layerHero,
+    sonicLayer,
     layerWalls;
 var walls = [];
 var isJumpAllowed = true;
 var gameTimeout = 60;
-
+var character = new Kinetic.Sprite();
 var imageRampBackground = new Image();
 imageRampBackground.src = 'images/platform.png';
 
@@ -120,11 +122,114 @@ function startNewGame() {
         height: MARIO_HEIGHT,
         stroke: 'black',
         fill: 'yellow',
+        opacity: 0,
         strokeWidth: 2
     });
 
+    sonicLayer = new Kinetic.Layer();
+    var sprite = new Image();
+
+    //Create shape/animation
+    sprite.onload = function () {
+     character = new Kinetic.Sprite({
+        x: xPos,
+        y: yPos,
+        image: sprite,
+        animation: 'idleRight',
+        animations: {
+            idleRight: [
+                // x, y, width, height
+                0, 0, 33, 40,
+                29, 0, 33, 40,
+                60, 0, 33, 40,
+                93, 0, 33, 40,
+                126, 0, 33, 40,
+                159, 0, 33, 40,
+                192, 0, 33, 40
+            ],
+            idleLeft: [
+                196, 40, 29, 40,
+                165, 40, 31, 40,
+                132, 40, 33, 40,
+                99, 40, 33, 40,
+                66, 40, 33, 40,
+                33, 40, 33, 40,
+                0, 40, 33, 40
+            ],
+            moveRight: [
+                43, 162, 33, 36,
+                76, 162, 33, 36,
+                109, 162, 33, 36,
+                141, 162, 33, 36,
+                43, 162, 33, 36,
+                76, 162, 33, 36,
+                109, 162, 33, 36,
+                141, 162, 33, 36
+            ],
+            moveLeft: [
+                141, 201, 33, 36,
+                109, 201, 33, 36,
+                76, 201, 33, 36,
+                43, 201, 33, 36,
+                141, 201, 33, 36,
+                109, 201, 33, 36,
+                76, 201, 33, 36,
+                43, 201, 33, 36
+
+            ],
+            jumpRight: [
+                21, 81, 26, 38,
+                47, 86, 31, 31,
+                78, 86, 31, 31,
+                112, 86, 31, 32,
+                144, 86, 31, 31,
+                47, 86, 31, 31,
+                78, 86, 31, 31,
+                112, 86, 31, 32,
+                144, 86, 31, 31,
+                177, 83, 26, 35
+            ],
+            jumpLeft: [
+                177, 119, 28, 38,
+                146, 126, 31, 31,
+                115, 125, 31, 31,
+                81, 125, 31, 32,
+                49, 125, 31, 31,
+                146, 126, 31, 31,
+                115, 125, 31, 31,
+                81, 125, 31, 32,
+                49, 125, 31, 31,
+                23, 122, 26, 35
+            ],
+            fallRight: [
+                118, 241, 25, 44
+            ],
+            fallLeft: [
+                89, 241, 25, 44,
+            ]
+        },
+
+        frameRate: 12,
+        frameIndex: 0
+    });
+
+    // Scale character to approximately 50px height
+    character.scale({
+        x: 1.3,
+        y: 1.3
+    });
+
+    //Add shape to layer
+    sonicLayer.add(character);
+
+    //Start animation
+    character.start();
+    }
+
+    sprite.src = 'images/Sonic-All.png';
     layerHero.add(mario);
     stage.add(layerHero);
+    stage.add(sonicLayer);
     //    timerId = setInterval(gameLoop, TIMEOUT);
     gameLoop();
 }
@@ -199,28 +304,65 @@ function updateFly() {
         }
         else {
             yPos -= JUMP_INC;
+            character.setY(character.attrs.y -= JUMP_INC);
+            if ((isFlying) && isMovingLeft) {
+                character.attrs.animation = 'jumpLeft'
+            }
+
+            if ((isFlying) && isMovingRight) {
+                character.attrs.animation = 'jumpRight';
+            }
+
+            if (!isMovingLeft && !isMovingRight) {
+                if (isLastMoveLeft) {
+                    character.attrs.animation = 'fallLeft';
+                } else {
+                    character.attrs.animation = 'fallRight';
+                }
+            }
+            
+            
         }
     }
     else if (isFalling) {
         yPos += JUMP_INC;
+        character.setY(character.attrs.y += JUMP_INC);
     }
 }
 
 function moveHero() {
     if (isMovingRight) {
         xPos += STEP_INC;
+        isLastMoveLeft = false;
+        character.setX(character.attrs.x += STEP_INC);
+        if (!(isFlying || isFalling)) {
+            character.attrs.animation = 'moveRight';
+        }
     }
 
     if (isMovingLeft) {
         if (xPos - STEP_INC >= 0) {
+            isLastMoveLeft = true;
             xPos -= STEP_INC;
+            character.setX(character.attrs.x -= STEP_INC);
+            if (!(isFlying || isFalling)) {
+                character.attrs.animation = 'moveLeft';
+            }
         }
     }
 
     if (isFlying || isFalling) {
         updateFly();
+    } 
+    if (!isFlying && !isFalling && !isMovingRight && !isMovingLeft) {
+        if (isLastMoveLeft) {
+            character.attrs.animation = 'idleLeft';
+        } else {
+            character.attrs.animation = 'idleRight';
+        }
+    
     }
-
+    
     mario.x(xPos);
     mario.y(yPos);
     mario.draw();//was replaced with:
