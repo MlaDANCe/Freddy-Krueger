@@ -2,7 +2,7 @@
 var TOP = 0;
 var RIGHT = 800;
 var BOTTOM = 600;
-var JUMP_MAX = 100;
+var JUMP_MAX = 120;
 var JUMP_INC = 5;
 var STEP_INC = 3;
 var TIMEOUT = 100;
@@ -22,7 +22,8 @@ var isGameWin = false;
 var isLastMoveLeft = false;
 var layerHero,
     sonicLayer,
-    layerWalls;
+    layerWalls,
+	groundLayer;
 var walls = [];
 var isJumpAllowed = true;
 var gameTimeout = 70;
@@ -46,7 +47,7 @@ var coinArray = [];//stores coins
     stage = new Kinetic.Stage({
         container: 'canvas-wrapper',
         width: 800,
-        height: 600
+        height: 640
     });
 
     document.getElementById('startButton').addEventListener('click', startNewGame);
@@ -82,17 +83,18 @@ function startNewGame() {
     window.addEventListener("keydown", keyDownEventHandler, false);
     window.addEventListener("keyup", keyUpEventHandler, false);
 
-    createShortRamp(150, 530, 112, 40, 'green', 'black');
-    createShortRamp(350, 500, 112, 40, 'red', 'black');
-    createShortRamp(570, 510, 112, 40, 'blue', 'black');
-    createShortRamp(240, 360, 112, 40, 'red', 'black');
-    createShortRamp(450, 430, 112, 40, 'blue', 'black');
+    createShortRamp(150, 500, 112, 40, 'green', 'black');
+    createShortRamp(350, 490, 112, 40, 'red', 'black');
+    createShortRamp(570, 500, 112, 40, 'blue', 'black');
+    createShortRamp(250, 350, 112, 40, 'red', 'black');
+    createShortRamp(450, 420, 112, 40, 'blue', 'black');
     createShortRamp(110, 260, 112, 40, 'red', 'black');
     createWideRamp(340, 200, 215, 40, 'blue', 'black');
     createShortRamp(630, 270, 112, 40, 'blue', 'black');
     createShortRamp(10, 160, 112, 40, 'red', 'black');
     createShortRamp(650, 130, 112, 40, 'blue', 'black');
     createShortRamp(210, 80, 112, 40, 'red', 'black');
+	createGroundRamp(0, 600, 800, 40, 'green', 'black');
 
     // Layer with walls
     layerWalls = new Kinetic.Layer();
@@ -101,7 +103,27 @@ function startNewGame() {
     }
 
     stage.add(layerWalls);
-
+		
+	//Layer with the ground
+	groundLayer = new Kinetic.Layer();
+	var groundImage = new Image();
+	groundImage.onload = function() {
+		var ground = new Kinetic.Image({
+		x:0,
+		y:600,
+		image: groundImage,
+		width: 800,
+		height: 40
+		});
+		
+		//add image to layer
+		groundLayer.add(ground);
+		
+		//add ground layer to stage
+		stage.add(groundLayer);
+	}
+	groundImage.src = 'images/ground.png';	
+		
     deployCoins();
     layerCoins = new Kinetic.Layer();
     for (i = 0; i < coinArray.length; i++) {
@@ -224,8 +246,8 @@ function startNewGame() {
         //Start animation
         character.start();
     }
-
     sprite.src = 'images/Sonic-All.png';
+		
     layerHero.add(mario);
     stage.add(layerHero);
     stage.add(sonicLayer);
@@ -273,6 +295,20 @@ function createWideRamp(posX, posY, width, height, color, borderColor) {
         //stroke: borderColor,
         strokeWidth: 1,
         fillPatternImage: imageWideRampBackground
+    });
+    walls.push(currentRamp);
+}
+
+function createGroundRamp(posX, posY, width, height, color, borderColor) {
+    var currentRamp = new Kinetic.Rect({
+        x: posX,
+        y: posY,
+        width: width,
+        height: height,
+        //fill:'transparent',
+        //stroke: borderColor,
+        strokeWidth: 1,
+        //fillPatternImage: imageWideRampBackground
     });
     walls.push(currentRamp);
 }
@@ -348,8 +384,6 @@ function updateFly() {
                     character.attrs.animation = 'fallRight';
                 }
             }
-
-
         }
     }
     else if (isFalling) {
@@ -510,7 +544,6 @@ function handleCollisions() {
         }
     }
 }
-
 
 function deployCoins() {
     var COIN_WIDTH = coinWidth * 2;

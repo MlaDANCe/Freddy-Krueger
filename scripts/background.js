@@ -1,4 +1,3 @@
-
 var img = new Image();
 // User Variables - customize these to change the image being scrolled, its
 // direction, and the speed.
@@ -19,6 +18,8 @@ var clearX;
 var clearY;
 var ctx;
 
+ctx = document.getElementById('canvas').getContext('2d');
+
 img.onload = function () {
     imgW = img.width * scale;
     imgH = img.height * scale;
@@ -38,7 +39,7 @@ img.onload = function () {
         clearY = CanvasYSize;
     }
     //Get Canvas Element
-    ctx = document.getElementById('canvas').getContext('2d');
+    //ctx = document.getElementById('canvas').getContext('2d');
     //Set Refresh Rate
     return setInterval(draw, speed);
 }
@@ -68,6 +69,7 @@ function draw() {
             ctx.drawImage(img, x - imgW + 1, y, imgW, imgH);
         }
     }
+	
     //draw image
     ctx.drawImage(img, x, y, imgW, imgH);
     //amount to move
