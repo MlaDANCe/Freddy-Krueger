@@ -26,8 +26,10 @@ var walls = [];
 var isJumpAllowed = true;
 var gameTimeout = 60;
 var character = new Kinetic.Sprite();
-var imageRampBackground = new Image();
-imageRampBackground.src = 'images/platform.png';
+var imageWideRampBackground = new Image();
+imageWideRampBackground.src = 'images/platform-wide.png';
+var imageShortRampBackground = new Image();
+imageShortRampBackground.src = 'images/platform-short.png';
 
 //money
 var coinWidth = 5,
@@ -77,17 +79,17 @@ function startNewGame() {
     window.addEventListener("keydown", keyDownEventHandler, false);
     window.addEventListener("keyup", keyUpEventHandler, false);
 
-    createRamp(150, 530, 120, 30, 'green', 'black');
-    createRamp(350, 500, 100, 30, 'red', 'black');
-    createRamp(550, 530, 10, 50, 'blue', 'black');
-    createRamp(240, 360, 120, 30, 'red', 'black');
-    createRamp(450, 430, 100, 20, 'blue', 'black');
-    createRamp(110, 260, 150, 30, 'red', 'black');
-    createRamp(380, 200, 200, 30, 'blue', 'black');
-    createRamp(630, 270, 100, 30, 'blue', 'black');
-    createRamp(50, 170, 100, 30, 'red', 'black');
-    createRamp(650, 130, 110, 30, 'blue', 'black');
-    createRamp(120, 80, 140, 30, 'red', 'black');
+    createShortRamp(150, 530, 112, 40, 'green', 'black');
+    createShortRamp(350, 500, 112, 40, 'red', 'black');
+    createShortRamp(550, 530, 10, 40, 'blue', 'black');
+    createShortRamp(240, 360, 112, 40, 'red', 'black');
+    createShortRamp(450, 430, 112, 40, 'blue', 'black');
+    createShortRamp(110, 260, 112, 40, 'red', 'black');
+    createWideRamp(380, 200, 215, 40, 'blue', 'black');
+    createShortRamp(630, 270, 112, 40, 'blue', 'black');
+    createShortRamp(50, 170, 112, 40, 'red', 'black');
+    createShortRamp(650, 130, 112, 40, 'blue', 'black');
+    createShortRamp(120, 80, 112, 40, 'red', 'black');
 
     // Layer with walls
     layerWalls = new Kinetic.Layer();
@@ -258,16 +260,30 @@ function gameover() {
     $('canvas-wrapper').hide();
 }
 
-function createRamp(posX, posY, width, height, color, borderColor) {
+function createWideRamp(posX, posY, width, height, color, borderColor) {
     var currentRamp = new Kinetic.Rect({
         x: posX,
         y: posY,
         width: width,
         height: height,
         //fill:'transparent',
-        stroke: borderColor,
+        //stroke: borderColor,
         strokeWidth: 1,
-        fillPatternImage: imageRampBackground
+        fillPatternImage: imageWideRampBackground
+    });
+    walls.push(currentRamp);
+}
+
+function createShortRamp(posX, posY, width, height, color, borderColor) {
+    var currentRamp = new Kinetic.Rect({
+        x: posX,
+        y: posY,
+        width: width,
+        height: height,
+        //fill:'transparent',
+        //stroke: borderColor,
+        strokeWidth: 1,
+        fillPatternImage: imageShortRampBackground
     });
     walls.push(currentRamp);
 }
