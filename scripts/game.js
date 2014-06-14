@@ -18,6 +18,7 @@ var mario;
 var isMovingRight = false;
 var isMovingLeft = false;
 var isGameOver = false;
+var isGameWin = false;
 var isLastMoveLeft = false;
 var layerHero,
     sonicLayer,
@@ -69,6 +70,7 @@ function startNewGame() {
 
     $('#startButton').fadeOut(2000);
     isGameOver = false;
+	isGameWin = false;
 
     shortly = new Date();
     shortly.setSeconds(shortly.getSeconds() + gameTimeout);
@@ -246,6 +248,21 @@ function gameover() {
     $('canvas-wrapper').hide();
 }
 
+function gameWin() {
+    isGameWin = true;
+
+    var r = Raphael(0, 0, 800, 600),
+        font = r.getFont("whoa"),
+        gameWin = r.print(150, 300, "YOU WON!", font, 80).attr({ fill: "#yellow", stroke: "#000" });
+    gameWin.animate({
+        2: {},
+        4: { transform: "s.2,1" },
+        6: { transform: "" }
+    }, 5000);
+
+    $('canvas-wrapper').hide();
+}
+
 function createWideRamp(posX, posY, width, height, color, borderColor) {
     var currentRamp = new Kinetic.Rect({
         x: posX,
@@ -410,6 +427,10 @@ function gameLoop() {
     if (isGameOver) {
         return;
     }
+	if (isGameWin) {
+		gameWin();
+		return;
+	}
 
     layerHero.clear();
     layerCoins.clear();
@@ -482,6 +503,9 @@ function handleCollisions() {
             coinArray.splice(i, 1);
             numberOfCoins -= 1;
             collectedCoins++;
+			if (collectedCoins == coinArray.length) {
+				isGameWin = true;
+			}
             break;
         }
     }
