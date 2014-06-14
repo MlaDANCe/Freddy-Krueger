@@ -3,8 +3,8 @@ var TOP = 0;
 var RIGHT = 800;
 var BOTTOM = 600;
 var JUMP_MAX = 100;
-var JUMP_INC = 10;
-var STEP_INC = 5;
+var JUMP_INC = 5;
+var STEP_INC = 3;
 var TIMEOUT = 100;
 var MARIO_WIDTH = 43;
 var MARIO_HEIGHT = 52;
@@ -24,7 +24,7 @@ var layerHero,
     layerWalls;
 var walls = [];
 var isJumpAllowed = true;
-var gameTimeout = 60;
+var gameTimeout = 70;
 var character = new Kinetic.Sprite();
 var imageWideRampBackground = new Image();
 imageWideRampBackground.src = 'images/platform-wide.png';
@@ -32,12 +32,13 @@ var imageShortRampBackground = new Image();
 imageShortRampBackground.src = 'images/platform-short.png';
 
 //money
-var coinWidth = 5,
+var coinWidth = 10,
     coinHeight = 10,
     shouldShrink = true,   //needed for animation
     speedOfRotation = 0.3, //from 0.0 to 5.0
-    numberOfCoins = 50, //10,
-    layerCoins;
+    numberOfCoins = 30, //10,
+    layerCoins,
+    collectedCoins = 0;
 var coinArray = [];//stores coins
 
 (function () {
@@ -98,21 +99,7 @@ function startNewGame() {
     }
 
     stage.add(layerWalls);
-    //coins to canvas
-    //for (var i = 0; i < numberOfCoins; i++) {
-    //    coinArray[i] = new Kinetic.Ellipse({
-    //        x: stage.getWidth() / 2 + 20 * i,
-    //        y: stage.getHeight() - coinHeight,
-    //        radius: {
-    //            x: coinWidth,
-    //            y: coinHeight
-    //        },
-    //        fill: 'gold',
-    //        stroke: 'black',
-    //        strokeWidth: 1
-    //    });
-    //    layerCoins.add(coinArray[i]);
-    //}
+
     deployCoins();
     layerCoins = new Kinetic.Layer();
     for (i = 0; i < coinArray.length; i++) {
@@ -186,7 +173,6 @@ function startNewGame() {
                     109, 201, 33, 36,
                     76, 201, 33, 36,
                     43, 201, 33, 36
-
                 ],
                 jumpRight: [
                     21, 81, 26, 38,
@@ -403,7 +389,7 @@ function drawCoins() {
 }
 
 function animateCoins(coins) {
-    for (var i = 0; i < numberOfCoins; i++) {
+    for (var i = 0; i < coins.length; i++) {
         if (coins[i].getRadius().x >= coinWidth) {
             shouldShrink = true;
         }
@@ -430,9 +416,12 @@ function gameLoop() {
     handleCollisions();
     moveHero();
     drawCoins();
+    updateCollectedCoins(collectedCoins);
     requestAnimationFrame(gameLoop);
 }
-
+function updateCollectedCoins(coins) {
+    $('#collectedCoins').text("Collected coins: "+coins);
+}
 function handleCollisions() {
     isFalling = true;
     var rampCount = walls.length;
@@ -492,6 +481,7 @@ function handleCollisions() {
                 (yPos <= coinArray[i].getY() && coinArray[i].getY() <= (yPos + MARIO_HEIGHT))) {
             coinArray.splice(i, 1);
             numberOfCoins -= 1;
+            collectedCoins++;
             break;
         }
     }
