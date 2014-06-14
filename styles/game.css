@@ -23,3 +23,16 @@ div, canvas {
     text-align: center;
     padding-top: 10px;
 }
+
+#collectedCoins {
+    left: 10px;
+    top: 130px;;
+    width: 160px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: lightgoldenrodyellow;
+    text-align: center;
+    padding-top: 10px;;
+}
