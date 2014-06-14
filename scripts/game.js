@@ -82,15 +82,15 @@ function startNewGame() {
 
     createShortRamp(150, 530, 112, 40, 'green', 'black');
     createShortRamp(350, 500, 112, 40, 'red', 'black');
-    createShortRamp(550, 530, 10, 40, 'blue', 'black');
+    createShortRamp(570, 510, 112, 40, 'blue', 'black');
     createShortRamp(240, 360, 112, 40, 'red', 'black');
     createShortRamp(450, 430, 112, 40, 'blue', 'black');
     createShortRamp(110, 260, 112, 40, 'red', 'black');
-    createWideRamp(380, 200, 215, 40, 'blue', 'black');
+    createWideRamp(340, 200, 215, 40, 'blue', 'black');
     createShortRamp(630, 270, 112, 40, 'blue', 'black');
-    createShortRamp(50, 170, 112, 40, 'red', 'black');
+    createShortRamp(10, 160, 112, 40, 'red', 'black');
     createShortRamp(650, 130, 112, 40, 'blue', 'black');
-    createShortRamp(120, 80, 112, 40, 'red', 'black');
+    createShortRamp(210, 80, 112, 40, 'red', 'black');
 
     // Layer with walls
     layerWalls = new Kinetic.Layer();
