@@ -26,9 +26,10 @@ var isJumpAllowed = true;
 var gameTimeout = 70;
 var character = new Kinetic.Sprite();
 var imageWideRampBackground = new Image();
-imageWideRampBackground.src = 'images/platform-wide.png';
 var imageShortRampBackground = new Image();
+
 imageShortRampBackground.src = 'images/platform-short.png';
+imageWideRampBackground.src = 'images/platform-wide.png';
 
 //money
 var coinWidth = 10,
@@ -101,10 +102,7 @@ function startNewGame() {
 		height: 40
 		});
 		
-		//add image to layer
 		groundLayer.add(ground);
-		
-		//add ground layer to stage
 		stage.add(groundLayer);
 	}
 	groundImage.src = 'images/ground.png';	
@@ -225,10 +223,7 @@ function startNewGame() {
             y: 1.3
         });
 
-        //Add shape to layer
         sonicLayer.add(character);
-
-        //Start animation
         character.start();
     }
     sprite.src = 'images/Sonic-All.png';
@@ -236,7 +231,6 @@ function startNewGame() {
     layerHero.add(mario);
     stage.add(layerHero);
     stage.add(sonicLayer);
-    //    timerId = setInterval(gameLoop, TIMEOUT);
     gameLoop();
 }
 
@@ -276,8 +270,6 @@ function createWideRamp(posX, posY, width, height, color, borderColor) {
         y: posY,
         width: width,
         height: height,
-        //fill:'transparent',
-        //stroke: borderColor,
         strokeWidth: 1,
         fillPatternImage: imageWideRampBackground
     });
@@ -290,10 +282,7 @@ function createGroundRamp(posX, posY, width, height, color, borderColor) {
         y: posY,
         width: width,
         height: height,
-        //fill:'transparent',
-        //stroke: borderColor,
-        strokeWidth: 1,
-        //fillPatternImage: imageWideRampBackground
+        strokeWidth: 1
     });
     walls.push(currentRamp);
 }
@@ -304,8 +293,6 @@ function createShortRamp(posX, posY, width, height, color, borderColor) {
         y: posY,
         width: width,
         height: height,
-        //fill:'transparent',
-        //stroke: borderColor,
         strokeWidth: 1,
         fillPatternImage: imageShortRampBackground
     });
@@ -322,7 +309,7 @@ function keyDownEventHandler(event) {
                 isJumpAllowed = false;
             }
             break;
-            // Right arrow
+        // Right arrow
         case 0x27:
             isMovingRight = true;
             break;
@@ -407,14 +394,11 @@ function moveHero() {
         } else {
             character.attrs.animation = 'idleRight';
         }
-
     }
 
     mario.x(xPos);
     mario.y(yPos);
-    mario.draw();//was replaced with:
-
-    //stage.draw();
+    mario.draw();
 }
 
 function drawCoins() {
@@ -482,7 +466,6 @@ function handleCollisions() {
 
     for (var i = 0; i < rampCount; i++) {
         var ramp = walls[i];
-        // collision with walls
         // collision when wall is top
         if (yPos > ramp.attrs.y + ramp.attrs.height) {
             if ((yPos - JUMP_INC < ramp.attrs.y + ramp.attrs.height) &&
@@ -522,7 +505,7 @@ function handleCollisions() {
             coinArray.splice(i, 1);
             numberOfCoins -= 1;
             collectedCoins++;
-			if (collectedCoins == coinArray.length) {
+            if (numberOfCoins === 0) {
 				isGameWin = true;
 			}
             break;
