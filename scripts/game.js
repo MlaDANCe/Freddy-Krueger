@@ -1,11 +1,8 @@
-﻿var LEFT = 0;
-var TOP = 0;
-var RIGHT = 800;
+﻿var RIGHT = 800;
 var BOTTOM = 600;
 var JUMP_MAX = 120;
 var JUMP_INC = 5;
-var STEP_INC = 3;
-var TIMEOUT = 100;
+var STEP_INC = 5;
 var MARIO_WIDTH = 43;
 var MARIO_HEIGHT = 52;
 var xPos = 10;
@@ -54,18 +51,6 @@ var coinArray = [];//stores coins
     $('timedownCounter').hide();
 
 }());
-
-function clearLayouts() {
-    if (layerHero) {
-        layerHero.clear();
-    }
-    if (layerCoins) {
-        layerCoins.clear();
-    }
-    if (layerCoins) {
-        layerWalls.clear();
-    }
-}
 
 function startNewGame() {
 
