@@ -2,6 +2,9 @@ var backgroundAudio = new Audio('sounds/background-music.ogg');
 var youWinAudio = new Audio('sounds/win.ogg');
 var gameOverAudio = new Audio('sounds/gameOver.ogg');
 var DEFAULT_IMAGE_WIDTH = 30;
+
+var $window = $(window);
+
 var soundOnIconPath = 'images/soundOn.png',
 	soundOffIconPath = 'images/soundOff.png';
 
@@ -30,21 +33,22 @@ play.addEventListener('click', function(){
 	backgroundAudio.loop = true;
 }, false);
 
-setInterval(function() {
-	if (isGameOver && !isGameWin) {
-		backgroundAudio.pause();
-		$soundImageContainer.css('pointer-events', 'none');
-		gameOverAudio.loop = true;
-		setTimeout(function(){
-			gameOverAudio.play();
-		}, 500);
-	}
-	else if (isGameWin && !isGameOver) {
-		backgroundAudio.pause();
-		$soundImageContainer.css('pointer-events', 'none');
-		youWinAudio.loop = false;
-		setTimeout(function(){
-			youWinAudio.play();
-		}, 500);
-	}
-}, 100)
+$window.on('gameover', onGameOver).on('gamewin', onGameWon);
+
+function onGameOver() {
+	backgroundAudio.pause();
+	$soundImageContainer.css('pointer-events', 'none');
+	gameOverAudio.loop = true;
+	setTimeout(function(){
+		gameOverAudio.play();
+	}, 500);
+}
+
+function onGameWon() {
+	backgroundAudio.pause();
+	$soundImageContainer.css('pointer-events', 'none');
+	youWinAudio.loop = false;
+	setTimeout(function(){
+		youWinAudio.play();
+	}, 500);
+}

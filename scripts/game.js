@@ -236,7 +236,9 @@ function startNewGame() {
 
 function gameover() {
     isGameOver = true;
-
+    var gameOverEvent = new Event('gameover');
+    window.dispatchEvent(gameOverEvent);
+    
     var r = Raphael(0, 0, 800, 600),
         font = r.getFont("whoa"),
         gameover = r.print(150, 300, "GAME OVER", font, 80).attr({ fill: "#ccc", stroke: "#000" });
@@ -251,6 +253,9 @@ function gameover() {
 
 function gameWin() {
     isGameWin = true;
+    var gameWinEvent = new Event('gamewin');
+    window.dispatchEvent(gameWinEvent);
+    
     $('#timedownCounter').countdown('pause');
 
     var r = Raphael(0, 0, 800, 600),
