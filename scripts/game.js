@@ -251,6 +251,7 @@ function gameover() {
 
 function gameWin() {
     isGameWin = true;
+    $('#timedownCounter').countdown('pause');
 
     var r = Raphael(0, 0, 800, 600),
         font = r.getFont("whoa"),
