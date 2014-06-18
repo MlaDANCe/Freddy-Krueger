@@ -55,7 +55,7 @@ var coinArray = [];//stores coins
 
 function startNewGame() {
 
-    $('#startButton').fadeOut(2000);
+    $('#startButton').fadeOut(2000).css('pointer-events', 'none');
     isGameOver = false;
 	isGameWin = false;
 
