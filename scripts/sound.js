@@ -5,6 +5,10 @@ var DEFAULT_IMAGE_WIDTH = 30;
 
 var $window = $(window);
 
+var isBackgroundAudioPlaying = false,
+	isYouWinAudioPlaying = false,
+	isGameOverAudioPlaying = false;
+
 var soundOnIconPath = 'images/soundOn.png',
 	soundOffIconPath = 'images/soundOff.png';
 
@@ -17,10 +21,20 @@ $soundImage.on('click', function() {
 	if($this.attr('src') == soundOnIconPath) {
 		$this.attr('src', soundOffIconPath)
 		backgroundAudio.pause();
+		youWinAudio.pause();
+		gameOverAudio.pause();
 	}
 	else if($this.attr('src') == soundOffIconPath) {
 		$this.attr('src', soundOnIconPath);
-		backgroundAudio.play();
+		if (isBackgroundAudioPlaying) {
+			backgroundAudio.play();
+		}
+		else if (isYouWinAudioPlaying) {
+			youWinAudio.play();
+		}
+		else if (isGameOverAudioPlaying) {
+			gameOverAudio.play();
+		}
 	}
 })
 $soundImageContainer.append($soundImage);
@@ -31,24 +45,31 @@ play.addEventListener('click', function(){
     backgroundAudio.play();
 	$soundImageContainer.fadeIn(2500);
 	backgroundAudio.loop = true;
+	isBackgroundAudioPlaying = true;
 }, false);
 
 $window.on('gameover', onGameOver).on('gamewin', onGameWon);
 
 function onGameOver() {
 	backgroundAudio.pause();
-	$soundImageContainer.css('pointer-events', 'none');
 	gameOverAudio.loop = true;
 	setTimeout(function(){
-		gameOverAudio.play();
+		if($soundImage.attr('src') == soundOnIconPath) {
+			gameOverAudio.play();
+		}
+		isGameOverAudioPlaying = true;
+		isBackgroundAudioPlaying = false;
 	}, 500);
 }
 
 function onGameWon() {
 	backgroundAudio.pause();
-	$soundImageContainer.css('pointer-events', 'none');
 	youWinAudio.loop = false;
 	setTimeout(function(){
-		youWinAudio.play();
+		if($soundImage.attr('src') == soundOnIconPath) {
+			youWinAudio.play();
+		}
+		isYouWinAudioPlaying = true;
+		isBackgroundAudioPlaying = false;
 	}, 500);
 }
