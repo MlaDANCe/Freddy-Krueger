@@ -1,0 +1,39 @@
+div, canvas {
+    position: absolute;
+}
+
+#menu {
+    left: 820px;
+    top: 10px;;
+    width: 180px;
+    height: 250px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: lightgoldenrodyellow;
+}
+
+#startButton {
+    left: 10px;
+    top: 10px;;
+    width: 160px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: lightsalmon;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+}
+
+#collectedCoins {
+    left: 10px;
+    top: 130px;;
+    width: 160px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: lightgoldenrodyellow;
+    text-align: center;
+    padding-top: 10px;;
+}
